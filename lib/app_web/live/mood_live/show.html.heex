@@ -1,0 +1,31 @@
+<h1>Show Mood</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.mood_show_path(@socket, :show, @mood)}>
+    <.live_component
+      module={AppWeb.MoodLive.FormComponent}
+      id={@mood.id}
+      title={@page_title}
+      action={@live_action}
+      mood={@mood}
+      return_to={Routes.mood_show_path(@socket, :show, @mood)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Rating:</strong>
+    <%= @mood.rating %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @mood.notes %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.mood_show_path(@socket, :edit, @mood), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.mood_index_path(@socket, :index) %></span>

@@ -1,0 +1,43 @@
+<h1>Listing Moods</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.mood_index_path(@socket, :index)}>
+    <.live_component
+      module={AppWeb.MoodLive.FormComponent}
+      id={@mood.id || :new}
+      title={@page_title}
+      action={@live_action}
+      mood={@mood}
+      return_to={Routes.mood_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<div id="mood_chart" style="height: 500px;" phx-hook="LineChart" phx-update="ignore" class="p-5 h-96" data-moods={Jason.encode!(@moods)}/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rating</th>
+      <th>Notes</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="moods">
+    <%= for mood <- @moods do %>
+      <tr id={"mood-#{mood.id}"}>
+        <td><%= mood.rating %></td>
+        <td><%= mood.notes %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.mood_show_path(@socket, :show, mood) %></span>
+          <span><%= live_patch "Edit", to: Routes.mood_index_path(@socket, :edit, mood) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: mood.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Mood", to: Routes.mood_index_path(@socket, :new) %></span>

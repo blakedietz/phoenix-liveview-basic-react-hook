@@ -1,0 +1,24 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="mood-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, :rating %>
+    <%= number_input f, :rating %>
+    <%= error_tag f, :rating %>
+  
+    <%= label f, :notes %>
+    <%= text_input f, :notes %>
+    <%= error_tag f, :notes %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>
