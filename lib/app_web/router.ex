@@ -17,14 +17,14 @@ defmodule AppWeb.Router do
   scope "/", AppWeb do
     pipe_through :browser
 
+    live "/", MoodLive.Index, :index
+
     live "/moods", MoodLive.Index, :index
     live "/moods/new", MoodLive.Index, :new
     live "/moods/:id/edit", MoodLive.Index, :edit
 
     live "/moods/:id", MoodLive.Show, :show
     live "/moods/:id/show/edit", MoodLive.Show, :edit
-
-    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
